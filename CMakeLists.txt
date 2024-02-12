@@ -28,7 +28,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 if(ANDROID)
   add_library(VVChat SHARED
-    ./thirdParty/material/lib/src
+    ./thirdParty/
     main.cpp
     mainwindow.cpp
     mainwindow.h
@@ -41,10 +41,11 @@ if(ANDROID)
     signin.ui
     ListViewData.h
     ListViewData.cpp
+
   )
 else()
   add_executable(VVChat
-    ./thirdParty/material/lib/src
+    ./thirdParty/
     main.cpp
     mainwindow.cpp
     mainwindow.h
@@ -58,6 +59,7 @@ else()
     res.qrc
     ListViewData.h
     ListViewData.cpp
+
     ${RESOURCES}
   )
 endif()

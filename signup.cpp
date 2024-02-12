@@ -12,7 +12,7 @@ SignUp::SignUp(QWidget *parent) :
 
     QWidget * mainWidget = new QWidget(this);
     QVBoxLayout * mainLayout = new QVBoxLayout(mainWidget);
-    setLayout(mainLayout);
+    //setLayout(mainLayout);
     mainWidget->setStyleSheet("QWidget { background: white; }");
     mainWidget->setFixedSize(440,300);
 
@@ -33,7 +33,7 @@ SignUp::SignUp(QWidget *parent) :
     QVBoxLayout *w2_w3Layout = new QVBoxLayout(w2_w3Widget);
     mainLayout->addWidget(w2_w3Widget);
 
-    QWidget *w2 = new QWidget(mainWidget);
+    QWidget *w2 = new QWidget(w2_w3Widget);
     QHBoxLayout * w2Layout = new QHBoxLayout(w2);
     m_name = new QLabel("昵称:",w2);
     m_name->setStyleSheet("QLabel {\
@@ -48,7 +48,7 @@ SignUp::SignUp(QWidget *parent) :
     w2Layout->addWidget(m_acc);
     w2_w3Layout->addWidget(w2);
 
-    QWidget *w3 = new QWidget(mainWidget);
+    QWidget *w3 = new QWidget(w2_w3Widget);
     QHBoxLayout * w3Layout = new QHBoxLayout(w3);
     m_password = new QLabel("密码:",w3);
     m_password->setStyleSheet("QLabel {\
@@ -74,16 +74,9 @@ SignUp::SignUp(QWidget *parent) :
 
     //注册对话框
     QtMaterialDialog *dialog = new QtMaterialDialog;
-    QVBoxLayout *layout = new QVBoxLayout;
-    setLayout(layout);
-
-    QWidget *widget = new QWidget;
-    layout->addWidget(widget);
-    ui->setupUi(widget);
-    layout->setContentsMargins(20, 20, 20, 20);
     dialog->setParent(this);
-
     QWidget *dialogWidget = new QWidget;
+    //ui->setupUi(dialogWidget);
     QVBoxLayout *dialogWidgetLayout = new QVBoxLayout;
     dialogWidget->setStyleSheet("QWidget { background: white; }");
     dialogWidget->setLayout(dialogWidgetLayout);

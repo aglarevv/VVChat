@@ -8,11 +8,16 @@
 #include "qtmaterialappbar.h"
 #include "qtmaterialiconbutton.h"
 #include "lib/qtmaterialtheme.h"
+#include "qtmaterialdrawer.h"
+#include "qtmaterialfab.h"
+
 
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QtWidgets>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
 #include <QLabel>
 #include <QTextEdit>
 #include <QTextBrowser>
@@ -36,15 +41,17 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void w1(QString str,QWidget* parent = nullptr,bool layoutStyle = 0);
-    void w2();
+
     void w3();
-    void updataView(QStringList str, QPixmap pixmap);
+
 private:
     Ui::MainWindow *ui;
     QWidget *m_mainWidget;
-    QVBoxLayout *m_mainLayout;
+    QHBoxLayout *m_mainLayout;
     QListView *m_view;
+    QtMaterialDrawer *m_drawer;
 
+signals:
+    void returnToSignIn();
 };
 #endif // MAINWINDOW_H

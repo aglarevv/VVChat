@@ -5,13 +5,14 @@
 
 SignIn::SignIn(QWidget *parent) :
     QWidget(parent),
+    m_mainWindow(new MainWindow(this)),
     ui(new Ui::SignIn)
 {
     ui->setupUi(this);
 
     m_stackWidget = new QStackedWidget(this);
-    QVBoxLayout *stackWidgetLayout = new QVBoxLayout;
-    m_stackWidget->setLayout(stackWidgetLayout);
+    //QVBoxLayout *stackWidgetLayout = new QVBoxLayout;
+    //m_stackWidget->setLayout(stackWidgetLayout);
     QWidget * mainWidget = new QWidget;
     mainWidget->setStyleSheet("QWidget { background: white; }");
     QVBoxLayout * mainLayout = new QVBoxLayout(mainWidget);
@@ -88,14 +89,17 @@ SignIn::SignIn(QWidget *parent) :
     m_stackWidget->addWidget(m_signUpWindow);
     m_stackWidget->setFixedSize(440,300);
 
-
-
     //信号
     connect(m_signIn,&QPushButton::clicked,this,&SignIn::loginConfirm);
     connect(m_signUp,&QPushButton::clicked,this,&SignIn::signUpConfirm);
     connect(m_signUpWindow,&SignUp::switchSignIn,this,[=](){
         m_stackWidget->setCurrentIndex(0);
     });
+    connect(m_mainWindow,&MainWindow::returnToSignIn,this,[=](){
+        m_mainWindow->hide();
+        this->show();
+    });
+
 }
 
 SignIn::~SignIn()
@@ -107,8 +111,13 @@ void SignIn::loginConfirm()
 {
     //login logic
     this->hide();
-    MainWindow *mainWindow = new MainWindow;
-    mainWindow->show();
+    m_mainWindow->show();
+//    this->setFixedSize(800,500);
+//    m_stackWidget->setFixedSize(800,500);
+//    int x = (QApplication::desktop()->width() - width()) / 2;
+//    int y = (QApplication::desktop()->height() - height()) / 2;
+//    move(x, y);
+//    m_stackWidget->setCurrentIndex(2);
 }
 
 void SignIn::signUpConfirm()

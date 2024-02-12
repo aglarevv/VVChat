@@ -2,6 +2,7 @@
 #define SIGNIN_H
 
 #include "signup.h"
+//#include "mainform.h"
 #include "mainwindow.h"
 #include "qtmaterialraisedbutton.h"
 
@@ -34,6 +35,7 @@ public:
 private:
     QStackedWidget *m_stackWidget;
     SignUp *m_signUpWindow;
+    MainWindow *m_mainWindow;
     Ui::SignIn *ui;
     QLabel * m_account;
     QLabel * m_password;
