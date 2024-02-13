@@ -1,0 +1,3 @@
+/home/aglarevv/Chat/chatServer/src/testAI/build/CMakeFiles/testAI.dir
+/home/aglarevv/Chat/chatServer/src/testAI/build/CMakeFiles/edit_cache.dir
+/home/aglarevv/Chat/chatServer/src/testAI/build/CMakeFiles/rebuild_cache.dir

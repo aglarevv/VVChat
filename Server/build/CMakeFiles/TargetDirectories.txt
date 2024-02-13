@@ -1,0 +1,7 @@
+/home/aglarevv/Chat/chatServer/build/CMakeFiles/edit_cache.dir
+/home/aglarevv/Chat/chatServer/build/CMakeFiles/rebuild_cache.dir
+/home/aglarevv/Chat/chatServer/build/src/CMakeFiles/edit_cache.dir
+/home/aglarevv/Chat/chatServer/build/src/CMakeFiles/rebuild_cache.dir
+/home/aglarevv/Chat/chatServer/build/src/server/CMakeFiles/chatServer.dir
+/home/aglarevv/Chat/chatServer/build/src/server/CMakeFiles/edit_cache.dir
+/home/aglarevv/Chat/chatServer/build/src/server/CMakeFiles/rebuild_cache.dir

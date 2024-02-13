@@ -1,0 +1,1 @@
+/usr/bin/g++ -g -g -rdynamic CMakeFiles/testAI.dir/aitest.cpp.o -o /home/aglarevv/Chat/chatServer/bin/testAI  -loai -lcurl 
