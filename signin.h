@@ -2,9 +2,9 @@
 #define SIGNIN_H
 
 #include "signup.h"
-//#include "mainform.h"
 #include "mainwindow.h"
 #include "qtmaterialraisedbutton.h"
+#include "tcpconnect.h"
 
 #include <QWidget>
 #include <QLabel>
@@ -14,6 +14,13 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 #include <QSpacerItem>
+#include <QString>
+#include <qjsondocument.h>
+#include <qjsonarray.h>
+#include <qjsonobject.h>
+#include <qjsonvalue.h>
+#include <QTcpSocket>
+
 
 /*
     登录界面类
@@ -43,6 +50,7 @@ private:
     QtMaterialRaisedButton * m_signUp;
     QLineEdit * m_acc;
     QLineEdit * m_pwd;
+
 
 
 

@@ -110,14 +110,30 @@ SignIn::~SignIn()
 void SignIn::loginConfirm()
 {
     //login logic
+    QString account;
+    account = m_acc->text();
+    QString password;
+    password = m_pwd->text();
+
+    QJsonObject basic;
+    basic.insert("msgType","0");
+    basic.insert("account",account);
+    basic.insert("password",password);
+    basic.insert("state",0);
+
+    QJsonDocument jsonDoc(basic);
+    QByteArray jsonData = jsonDoc.toJson();
+
+    TcpConnect tcp;
+    tcp.connect();
+
+    tcp.m_socket->write(jsonData);
+
+
+
     this->hide();
     m_mainWindow->show();
-//    this->setFixedSize(800,500);
-//    m_stackWidget->setFixedSize(800,500);
-//    int x = (QApplication::desktop()->width() - width()) / 2;
-//    int y = (QApplication::desktop()->height() - height()) / 2;
-//    move(x, y);
-//    m_stackWidget->setCurrentIndex(2);
+
 }
 
 void SignIn::signUpConfirm()

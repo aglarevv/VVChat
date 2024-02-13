@@ -24,7 +24,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets REQUIRED Network)
 
 if(ANDROID)
   add_library(VVChat SHARED
@@ -41,7 +41,8 @@ if(ANDROID)
     signin.ui
     ListViewData.h
     ListViewData.cpp
-
+    tcpconnect.cpp
+    tcpconnect.h
   )
 else()
   add_executable(VVChat
@@ -59,7 +60,9 @@ else()
     res.qrc
     ListViewData.h
     ListViewData.cpp
-
+    tcpconnect.cpp
+    tcpconnect.h
+    config.ini
     ${RESOURCES}
   )
 endif()
@@ -87,6 +90,6 @@ set(SOURCES
 )
 
 
-target_link_libraries(VVChat PRIVATE Qt5::Widgets PRIVATE libcomponents)
+target_link_libraries(VVChat PRIVATE Qt5::Widgets PRIVATE Qt5::Network PRIVATE libcomponents)
 
 

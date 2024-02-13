@@ -1,5 +1,5 @@
-#include "signin.h"
 #include "signup.h"
+#include "signin.h"
 #include "ui_signup.h"
 
 #include <QtDebug>
@@ -71,6 +71,7 @@ SignUp::SignUp(QWidget *parent) :
     m_signUp->setMaximumWidth(200);
     w4Layout->addWidget(m_signUp);
     mainLayout->addWidget(w4);
+    connect(m_signUp,&QPushButton::pressed,this,&SignUp::signUpResoult);
 
     //注册对话框
     QtMaterialDialog *dialog = new QtMaterialDialog;
@@ -142,6 +143,24 @@ SignUp::~SignUp()
 
 void SignUp::signUpResoult()
 {
+    QString name;
+    name = m_acc->text();
+    QString password;
+    password = m_pwd->text();
+
+    QJsonObject basic;
+    basic.insert("msgType","1");
+    basic.insert("name",name);
+    basic.insert("password",password);
+    basic.insert("state",0);
+
+    QJsonDocument jsonDoc(basic);
+    QByteArray jsonData = jsonDoc.toJson();
+    TcpConnect tcp;
+    tcp.connect();
+    tcp.m_socket->write(jsonData);
+
+    tcp.m_socket->disconnectFromHost();
 
 
 }

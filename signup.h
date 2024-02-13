@@ -5,6 +5,7 @@
 #include "qtmaterialflatbutton.h"
 #include "qtmaterialraisedbutton.h"
 
+
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
@@ -12,6 +13,8 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QDialog>
+#include <QTcpSocket>
+#include <QSettings>
 
 namespace Ui {
 class SignUp;
