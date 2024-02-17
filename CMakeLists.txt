@@ -43,6 +43,7 @@ if(ANDROID)
     ListViewData.cpp
     tcpconnect.cpp
     tcpconnect.h
+    config.ini
   )
 else()
   add_executable(VVChat

@@ -124,10 +124,9 @@ void SignIn::loginConfirm()
     QJsonDocument jsonDoc(basic);
     QByteArray jsonData = jsonDoc.toJson();
 
-    TcpConnect tcp;
-    tcp.connect();
+    TcpConnect* tcp = TcpConnect::instance();
 
-    tcp.m_socket->write(jsonData);
+    tcp->getSocket()->write(jsonData);
 
 
 

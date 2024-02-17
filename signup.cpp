@@ -73,66 +73,7 @@ SignUp::SignUp(QWidget *parent) :
     mainLayout->addWidget(w4);
     connect(m_signUp,&QPushButton::pressed,this,&SignUp::signUpResoult);
 
-    //注册对话框
-    QtMaterialDialog *dialog = new QtMaterialDialog;
-    dialog->setParent(this);
-    QWidget *dialogWidget = new QWidget;
-    //ui->setupUi(dialogWidget);
-    QVBoxLayout *dialogWidgetLayout = new QVBoxLayout;
-    dialogWidget->setStyleSheet("QWidget { background: white; }");
-    dialogWidget->setLayout(dialogWidgetLayout);
-    QLabel *title = new QLabel;
-    title->setText("注册成功!");
-    title->setStyleSheet("QLabel {\
-                         font-family: \"Microsoft YaHei\";\
-                         font-size: 22px;\
-                         font-weight: bold;\
-                         color:black;\
-                         border:none;}");
-    dialogWidgetLayout->addWidget(title);
-    dialogWidgetLayout->setAlignment(title, Qt::AlignTop| Qt::AlignCenter);
 
-    m_name = new QLabel(dialogWidget);
-    m_name->setStyleSheet("QLabel {\
-                          font-family: \"Microsoft YaHei\";\
-                          font-size: 16px;\
-                          font-weight: bold;\
-                          color:black;\
-                          border:none;}");
-    QString account;
-    account = "你的账号是：";
-    m_name->setText(account);
-    dialogWidgetLayout->addWidget(m_name);
-
-
-    QLabel *label = new QLabel("请保存好您的账号和密码！");
-    label->setStyleSheet("QLabel {\
-                         font-family: \"Microsoft YaHei\";\
-                         font-size: 12px;\
-                         font-weight: bold;\
-                         color:red;\
-                         border:none;}");
-    dialogWidgetLayout->addWidget(label);
-    dialogWidgetLayout->setAlignment(label, Qt::AlignBottom| Qt::AlignHCenter);
-
-    QtMaterialRaisedButton *closeButton = new QtMaterialRaisedButton("点我返回登录");
-    dialogWidgetLayout->setAlignment(closeButton, Qt::AlignBottom | Qt::AlignCenter);
-    dialogWidgetLayout->addWidget(closeButton);
-    closeButton->setRole(Material::Role::Secondary);
-    closeButton->setOverlayStyle(Material::OverlayStyle::TintedOverlay);
-
-    QVBoxLayout *dialogLayout = new QVBoxLayout;
-    dialog->setWindowLayout(dialogLayout);
-
-    dialogLayout->addWidget(dialogWidget);
-    dialogWidget->setMinimumHeight(220);
-
-    //信号
-    connect(m_signUp, SIGNAL(clicked()), dialog, SLOT(showDialog()));
-    connect(closeButton, SIGNAL(clicked()), dialog, SLOT(hideDialog()));
-    connect(closeButton,&QPushButton::clicked,this,[=](){
-        emit switchSignIn();
-    });
 
 }
 
@@ -147,20 +88,96 @@ void SignUp::signUpResoult()
     name = m_acc->text();
     QString password;
     password = m_pwd->text();
-
     QJsonObject basic;
-    basic.insert("msgType","1");
+    basic.insert("msgType",LOGIN);
     basic.insert("name",name);
     basic.insert("password",password);
     basic.insert("state",0);
 
     QJsonDocument jsonDoc(basic);
-    QByteArray jsonData = jsonDoc.toJson();
-    TcpConnect tcp;
-    tcp.connect();
-    tcp.m_socket->write(jsonData);
+    QString jsonData = jsonDoc.toJson();
 
-    tcp.m_socket->disconnectFromHost();
+    TcpConnect* tcp = TcpConnect::instance();
+    tcp->getSocket()->write(jsonData.toUtf8().data());
+
+
+    QByteArray data = tcp->getSocket()->readAll();
+    QJsonDocument fromJsonDoc = QJsonDocument::fromJson(data);
+    QJsonObject jsonObj = fromJsonDoc.object();
+
+    // Process the JSON data
+    QStringList msg = {jsonObj["msgType"].toString(),
+                      jsonObj["errorNo"].toString(),
+                      jsonObj["account"].toString()};
+
+
+
+
+
+    if(msg[0] == REGISTER_ACK){
+        //注册对话框
+        QtMaterialDialog *dialog = new QtMaterialDialog;
+        dialog->setParent(this);
+        QWidget *dialogWidget = new QWidget;
+        //ui->setupUi(dialogWidget);
+        QVBoxLayout *dialogWidgetLayout = new QVBoxLayout;
+        dialogWidget->setStyleSheet("QWidget { background: white; }");
+        dialogWidget->setLayout(dialogWidgetLayout);
+        QLabel *title = new QLabel;
+        title->setText("注册成功!");
+        title->setStyleSheet("QLabel {\
+                             font-family: \"Microsoft YaHei\";\
+                             font-size: 22px;\
+                             font-weight: bold;\
+                             color:black;\
+                             border:none;}");
+        dialogWidgetLayout->addWidget(title);
+        dialogWidgetLayout->setAlignment(title, Qt::AlignTop| Qt::AlignCenter);
+
+        m_name = new QLabel(dialogWidget);
+        m_name->setStyleSheet("QLabel {\
+                              font-family: \"Microsoft YaHei\";\
+                              font-size: 16px;\
+                              font-weight: bold;\
+                              color:black;\
+                              border:none;}");
+        QString account;
+        account = "你的账号是：";
+        m_name->setText(msg[2]);
+        dialogWidgetLayout->addWidget(m_name);
+
+
+        QLabel *label = new QLabel("请保存好您的账号和密码！");
+        label->setStyleSheet("QLabel {\
+                             font-family: \"Microsoft YaHei\";\
+                             font-size: 12px;\
+                             font-weight: bold;\
+                             color:red;\
+                             border:none;}");
+        dialogWidgetLayout->addWidget(label);
+        dialogWidgetLayout->setAlignment(label, Qt::AlignBottom| Qt::AlignHCenter);
+
+        QtMaterialRaisedButton *closeButton = new QtMaterialRaisedButton("点我返回登录");
+        dialogWidgetLayout->setAlignment(closeButton, Qt::AlignBottom | Qt::AlignCenter);
+        dialogWidgetLayout->addWidget(closeButton);
+        closeButton->setRole(Material::Role::Secondary);
+        closeButton->setOverlayStyle(Material::OverlayStyle::TintedOverlay);
+
+        QVBoxLayout *dialogLayout = new QVBoxLayout;
+        dialog->setWindowLayout(dialogLayout);
+
+        dialogLayout->addWidget(dialogWidget);
+        dialogWidget->setMinimumHeight(220);
+        //信号
+        connect(m_signUp, SIGNAL(clicked()), dialog, SLOT(showDialog()));
+        connect(closeButton, SIGNAL(clicked()), dialog, SLOT(hideDialog()));
+        connect(closeButton,&QPushButton::clicked,this,[=](){
+            emit switchSignIn();
+        });
+
+    }
+
+
 
 
 }
