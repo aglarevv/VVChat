@@ -2,6 +2,9 @@
 #define TCPCONNECT_H
 
 
+#include "thirdParty/json.hpp"
+using json = nlohmann::json;
+
 #include <QTcpSocket>
 #include <QSettings>
 #include <QSettings>
@@ -29,7 +32,6 @@ class TcpConnect
 public:
     static TcpConnect* instance();
     bool connect();
-
 
     QTcpSocket *getSocket();
 private:

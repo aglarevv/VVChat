@@ -42,7 +42,7 @@ SignUp::SignUp(QWidget *parent) :
                              color: black;\
                              font-style: normal;\
                              font-weight: bold;}");
-    m_name->setFixedHeight(20);
+    m_name->setFixedHeight(25);
     m_acc = new QLineEdit(w2);
     w2Layout->addWidget(m_name);
     w2Layout->addWidget(m_acc);
@@ -57,7 +57,7 @@ SignUp::SignUp(QWidget *parent) :
                              color: black;\
                              font-style: normal;\
                              font-weight: bold;}");
-    m_password->setFixedHeight(20);
+    m_password->setFixedHeight(25);
     m_pwd = new QLineEdit(w3);
     m_pwd->setEchoMode(QLineEdit::Password);
     w3Layout->addWidget(m_password);
@@ -71,8 +71,8 @@ SignUp::SignUp(QWidget *parent) :
     m_signUp->setMaximumWidth(200);
     w4Layout->addWidget(m_signUp);
     mainLayout->addWidget(w4);
-    connect(m_signUp,&QPushButton::pressed,this,&SignUp::signUpResoult);
 
+    connect(m_signUp,&QPushButton::pressed,this,&SignUp::signUpResoult);
 
 
 }
@@ -84,37 +84,59 @@ SignUp::~SignUp()
 
 void SignUp::signUpResoult()
 {
+
+
     QString name;
     name = m_acc->text();
     QString password;
     password = m_pwd->text();
-    QJsonObject basic;
-    basic.insert("msgType",LOGIN);
-    basic.insert("name",name);
-    basic.insert("password",password);
-    basic.insert("state",0);
+    qDebug() << name << " " << password;
 
-    QJsonDocument jsonDoc(basic);
-    QString jsonData = jsonDoc.toJson();
+
+    json js;
+    js["msgType"] = REGISTER;
+    js["name"] = name.toUtf8();
+    js["password"] = password.toUtf8();
+    js["state"] = 0;
+    std::string request = js.dump();
 
     TcpConnect* tcp = TcpConnect::instance();
-    tcp->getSocket()->write(jsonData.toUtf8().data());
+    tcp->getSocket()->flush();
+    if(tcp->getSocket()->waitForConnected())
+    {
+        if((tcp->getSocket()->write(request.c_str(),strlen(request.c_str())+1)) != -1){
+            connect(tcp->getSocket(),&QTcpSocket::readyRead,this,&SignUp::handleReadyRead);
+            return;
+        }
+        else{
+            QMessageBox::information(this, "waring", "register error",QMessageBox::Ok);
+        }
+
+    }
 
 
-    QByteArray data = tcp->getSocket()->readAll();
-    QJsonDocument fromJsonDoc = QJsonDocument::fromJson(data);
-    QJsonObject jsonObj = fromJsonDoc.object();
-
-    // Process the JSON data
-    QStringList msg = {jsonObj["msgType"].toString(),
-                      jsonObj["errorNo"].toString(),
-                      jsonObj["account"].toString()};
+}
 
 
+void SignUp::handleReadyRead()
+{
+    TcpConnect* tcp = TcpConnect::instance();
+    json receivedJson;
+    receivedJson.clear();
 
+    QByteArray data;
+    data.clear();
+    data = tcp->getSocket()->readAll();
+    QString jsonString = QString::fromUtf8(data);
+    try {
+        receivedJson = json::parse(jsonString.toStdString());
+    } catch(const std::exception& e) {
+        std::cout << receivedJson << '\n';
+        std::cout << e.what() << '\n';
+        return;
+    }
 
-
-    if(msg[0] == REGISTER_ACK){
+    if(receivedJson["msgType"] == REGISTER_ACK && receivedJson["errorNo"] == 0){
         //注册对话框
         QtMaterialDialog *dialog = new QtMaterialDialog;
         dialog->setParent(this);
@@ -126,24 +148,25 @@ void SignUp::signUpResoult()
         QLabel *title = new QLabel;
         title->setText("注册成功!");
         title->setStyleSheet("QLabel {\
-                             font-family: \"Microsoft YaHei\";\
-                             font-size: 22px;\
-                             font-weight: bold;\
-                             color:black;\
-                             border:none;}");
+                                font-family: \"Microsoft YaHei\";\
+                                font-size: 22px;\
+                                font-weight: bold;\
+                                color:black;\
+                                border:none;}");
         dialogWidgetLayout->addWidget(title);
         dialogWidgetLayout->setAlignment(title, Qt::AlignTop| Qt::AlignCenter);
 
         m_name = new QLabel(dialogWidget);
+
         m_name->setStyleSheet("QLabel {\
-                              font-family: \"Microsoft YaHei\";\
-                              font-size: 16px;\
-                              font-weight: bold;\
-                              color:black;\
-                              border:none;}");
+                                font-family: \"Microsoft YaHei\";\
+                                font-size: 16px;\
+                                font-weight: bold;\
+                                color:black;\
+                                border:none;}");
         QString account;
         account = "你的账号是：";
-        m_name->setText(msg[2]);
+        m_name->setText(account + QString::fromStdString(receivedJson["account"]));
         dialogWidgetLayout->addWidget(m_name);
 
 
@@ -151,9 +174,9 @@ void SignUp::signUpResoult()
         label->setStyleSheet("QLabel {\
                              font-family: \"Microsoft YaHei\";\
                              font-size: 12px;\
-                             font-weight: bold;\
-                             color:red;\
-                             border:none;}");
+        font-weight: bold;\
+        color:red;\
+        border:none;}");
         dialogWidgetLayout->addWidget(label);
         dialogWidgetLayout->setAlignment(label, Qt::AlignBottom| Qt::AlignHCenter);
 
@@ -168,16 +191,18 @@ void SignUp::signUpResoult()
 
         dialogLayout->addWidget(dialogWidget);
         dialogWidget->setMinimumHeight(220);
+        dialog->show();
         //信号
         connect(m_signUp, SIGNAL(clicked()), dialog, SLOT(showDialog()));
+
         connect(closeButton, SIGNAL(clicked()), dialog, SLOT(hideDialog()));
         connect(closeButton,&QPushButton::clicked,this,[=](){
             emit switchSignIn();
+
         });
-
     }
-
-
-
+    else{
+        QMessageBox::information(this, "waring", "昵称或密码不能为空",QMessageBox::Ok);
+    }
 
 }

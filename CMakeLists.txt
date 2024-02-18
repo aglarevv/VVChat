@@ -44,6 +44,11 @@ if(ANDROID)
     tcpconnect.cpp
     tcpconnect.h
     config.ini
+    ./thirdParty/json.hpp
+    user.cpp
+    user.h
+    userlistmodel.cpp
+    userlistmodel.h
   )
 else()
   add_executable(VVChat
@@ -64,6 +69,11 @@ else()
     tcpconnect.cpp
     tcpconnect.h
     config.ini
+    ./thirdParty/json.hpp
+    user.cpp
+    user.h
+    userlistmodel.cpp
+    userlistmodel.h
     ${RESOURCES}
   )
 endif()

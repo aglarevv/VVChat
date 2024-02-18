@@ -15,10 +15,6 @@
 #include <QStackedWidget>
 #include <QSpacerItem>
 #include <QString>
-#include <qjsondocument.h>
-#include <qjsonarray.h>
-#include <qjsonobject.h>
-#include <qjsonvalue.h>
 #include <QTcpSocket>
 
 
@@ -43,6 +39,7 @@ private:
     QStackedWidget *m_stackWidget;
     SignUp *m_signUpWindow;
     MainWindow *m_mainWindow;
+    QWidget * m_mainWidget;
     Ui::SignIn *ui;
     QLabel * m_account;
     QLabel * m_password;
@@ -51,12 +48,14 @@ private:
     QLineEdit * m_acc;
     QLineEdit * m_pwd;
 
-
+signals:
+    void swichMainWindow();
 
 
 public slots:
     void loginConfirm();
     void signUpConfirm();
+    void handleReadyRead();
 
 };
 

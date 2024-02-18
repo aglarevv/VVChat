@@ -17,6 +17,7 @@ bool TcpConnect::connect()
     if (!m_socket->waitForConnected()) {
         qDebug() << "Error: " << m_socket->errorString();
         return false;
+
     }
     return true;
 }
@@ -30,5 +31,7 @@ TcpConnect::TcpConnect()
 {
     m_socket = new QTcpSocket;
 }
+
+
 
 

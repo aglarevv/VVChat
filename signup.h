@@ -4,7 +4,7 @@
 #include "qtmaterialdialog.h"
 #include "qtmaterialflatbutton.h"
 #include "qtmaterialraisedbutton.h"
-
+#include "tcpconnect.h"
 
 #include <QWidget>
 #include <QLabel>
@@ -15,6 +15,8 @@
 #include <QDialog>
 #include <QTcpSocket>
 #include <QSettings>
+#include <string>
+#include <iostream>
 
 namespace Ui {
 class SignUp;
@@ -40,8 +42,10 @@ private:
 signals:
     void switchSignIn();
 
+
 public slots:
     void signUpResoult();
+    void handleReadyRead();
 
 
 };

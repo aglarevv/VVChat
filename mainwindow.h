@@ -10,7 +10,11 @@
 #include "lib/qtmaterialtheme.h"
 #include "qtmaterialdrawer.h"
 #include "qtmaterialfab.h"
-
+#include "tcpconnect.h"
+#include "user.h"
+#include "userlistmodel.h"
+#include "qtmaterialdialog.h"
+#include "qtmaterialtextfield.h"
 
 #include <QMainWindow>
 #include <QStackedWidget>
@@ -27,7 +31,10 @@
 #include <QStandardItem>
 #include <QTextBrowser>
 #include <QPalette>
-
+#include <QString>
+#include <vector>
+#include <iostream>
+#include <functional>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,18 +45,22 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(json js,QWidget *parent = nullptr);
     ~MainWindow();
 
 
     void w3();
-
+    void handleDrawer(json js);
+    void handleDrawerJs();
 private:
     Ui::MainWindow *ui;
     QWidget *m_mainWidget;
     QHBoxLayout *m_mainLayout;
     QListView *m_view;
     QtMaterialDrawer *m_drawer;
+    QVBoxLayout *m_leftLayout;
+    std::vector<User> m_userList;
+    QVector<QString> m_drawerLabels;
 
 signals:
     void returnToSignIn();

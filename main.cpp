@@ -9,9 +9,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     SignIn s;
+
     TcpConnect * tcp = TcpConnect::instance();
     tcp->connect();
-
     s.setFixedSize(440,300);  // 设置窗口大小
 
     // 计算屏幕中央的位置
