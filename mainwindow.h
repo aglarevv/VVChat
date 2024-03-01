@@ -12,16 +12,19 @@
 #include "qtmaterialfab.h"
 #include "tcpconnect.h"
 #include "user.h"
-#include "userlistmodel.h"
 #include "qtmaterialdialog.h"
 #include "qtmaterialtextfield.h"
+#include "itemdelegate.h"
+#include "flushinfo.h"
+#include "tcpclient.h"
+#include "tcpserver.h"
+#include "fontmodel.h"
 
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QtWidgets>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QGridLayout>
 #include <QLabel>
 #include <QTextEdit>
 #include <QTextBrowser>
@@ -35,6 +38,17 @@
 #include <vector>
 #include <iostream>
 #include <functional>
+#include <QObjectUserData>
+#include <QSortFilterProxyModel>
+#include <QTimer>
+#include <QThread>
+#include <QDateTime>
+#include <QTextCursor>
+#include <QTextCharFormat>
+#include <QFileDialog>
+#include <QTextCharFormat>
+#include <QTextStream>
+#include <QFile>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -48,21 +62,74 @@ public:
     MainWindow(json js,QWidget *parent = nullptr);
     ~MainWindow();
 
-
-    void w3();
+    bool writeToFile(const QString &filePath, const QString &content);
+    bool readFileContent(const QString &filePath, QTextBrowser *textBrowser);
+    void groupChat();
+public slots:
     void handleDrawer(json js);
     void handleDrawerJs();
+    void getInfo(json receivedJson);
+    void updateTextBrowser(const QModelIndex &index);
+    void onDataReady();
+    void sendMsg();
+    QString getCurTime();
+    void updataInfo();
+    //void processPendingDatagrams();
+    void currentFormatChanged(const QTextCharFormat &format);
+    QString getMessage();
+    void receivedMsg();
+    void showContextMenu(const QModelIndex &index);
 private:
     Ui::MainWindow *ui;
     QWidget *m_mainWidget;
     QHBoxLayout *m_mainLayout;
+    QVBoxLayout *dialogWidgetLayout;
     QListView *m_view;
     QtMaterialDrawer *m_drawer;
     QVBoxLayout *m_leftLayout;
-    std::vector<User> m_userList;
     QVector<QString> m_drawerLabels;
-
+    ItemDelegate *m_delegate;                 //委托
+    QSortFilterProxyModel* m_proxyModel;
+    QtMaterialTabs *tabs;
+    QStandardItemModel* itemModel;
+    QTextBrowser *browser;
+    QLabel* msgTitle;
+    QTimer *timer;
+    bool state = true;
+    FlushInfo* info;
+    QTextEdit *textEdit;
+    QtMaterialRaisedButton *sendButton;
+    json js;
+    std::string peerAccount;
+    std::string peerName;
+    std::string peerState;
+    std::string peerGroupAccount;
+    json receivedJson;
+    QColor color;
+    TcpServer *server;
+    QToolButton *boldButton;
+    QToolButton *ItalicsButton;
+    QToolButton *UnderlineButton;
+    QToolButton *ColorButton;
+    QToolButton *FileButton;
+    QToolButton *ClearButton;
+    QFontComboBox *fontComboBox;
+    QComboBox *sizeComboBox;
+    QtMaterialDialog *dialog;
+    QLabel *title;
+    QtMaterialTextField* accountEdit;
+    QtMaterialTextField* nameEdit;
+    QtMaterialTextField* descEdit;
+    QtMaterialRaisedButton *closeButton;
+    std::vector<std::string> vec2;
+    bool flag = true;
+    bool exit = false;
 signals:
     void returnToSignIn();
+    void readMsg();
+    void dataInfo(json receivedJson);
+    //void currentCharFormatChanged(const QTextCharFormat &format);
+    void contentRead();
+    void hand();
 };
 #endif // MAINWINDOW_H

@@ -13,10 +13,10 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QDialog>
-#include <QTcpSocket>
 #include <QSettings>
 #include <string>
 #include <iostream>
+#include <QMessageBox>
 
 namespace Ui {
 class SignUp;

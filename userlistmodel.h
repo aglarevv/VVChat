@@ -10,6 +10,7 @@ class UserListModel : public QAbstractListModel
 {
 public:
 
+
     explicit UserListModel(QObject* parent = nullptr);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override {

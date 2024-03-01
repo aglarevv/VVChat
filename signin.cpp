@@ -1,18 +1,14 @@
-#include "signin.h"
+﻿#include "signin.h"
 #include "ui_signin.h"
 
 #include <QDebug>
-
+extern TcpConnect* tcp;
 SignIn::SignIn(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SignIn)
 {
     ui->setupUi(this);
-
-    m_stackWidget = new QStackedWidget(this);
-    //QVBoxLayout *stackWidgetLayout = new QVBoxLayout;
-    //m_stackWidget->setLayout(stackWidgetLayout);
-    m_mainWidget = new QWidget;
+    m_mainWidget = new QWidget(this);
     m_mainWidget->setStyleSheet("QWidget { background: white; }");
     QVBoxLayout * mainLayout = new QVBoxLayout(m_mainWidget);
     //标题
@@ -82,18 +78,11 @@ SignIn::SignIn(QWidget *parent) :
     m_signUp->setMaximumHeight(30);
     w4Layout->addWidget(m_signUp);
     mainLayout->addWidget(w4);
-    //页面切换
-    m_signUpWindow = new SignUp;
-    m_stackWidget->addWidget(m_mainWidget);
-    m_stackWidget->addWidget(m_signUpWindow);
-    m_stackWidget->setFixedSize(440,300);
+    m_mainWidget->setFixedSize(440,300);
 
     //信号
     connect(m_signIn,&QPushButton::clicked,this,&SignIn::loginConfirm);
-    connect(m_signUp,&QPushButton::clicked,this,&SignIn::signUpConfirm);
-    connect(m_signUpWindow,&SignUp::switchSignIn,this,[=](){
-        m_stackWidget->setCurrentWidget(m_mainWidget);
-    });
+
 
 
 }
@@ -103,10 +92,9 @@ SignIn::~SignIn()
     delete ui;
 }
 
+
 void SignIn::loginConfirm()
 {
-
-
 
     //login logic
     QString account;
@@ -120,73 +108,67 @@ void SignIn::loginConfirm()
     js["password"] = password.toUtf8();
     std::string request = js.dump();
 
-
-    TcpConnect* tcp = TcpConnect::instance();
-
-        tcp->getSocket()->flush();
+    if(tcp->getSocket() != nullptr)
+    {
+       // tcp->getSocket()->flush();
         if(tcp->getSocket()->waitForConnected())
         {
             if((tcp->getSocket()->write(request.c_str(),strlen(request.c_str())+1)) != -1){
-                connect(tcp->getSocket(),&QTcpSocket::readyRead,this,&SignIn::handleReadyRead);
-                return;
+                    connect(tcp->getSocket(),&QTcpSocket::readyRead,this,&SignIn::handleReadyRead);
+
             }
             else{
                 QMessageBox::information(this, "waring", "login error",QMessageBox::Ok);
             }
 
         }
-
-
-
-}
-
-void SignIn::signUpConfirm()
-{
-    m_stackWidget->removeWidget(m_signUpWindow);
-    if (m_signUpWindow != nullptr) {
-        delete m_signUpWindow;
-        m_signUpWindow = nullptr;
     }
-    m_signUpWindow = new SignUp;
-    m_stackWidget->addWidget(m_signUpWindow);
-    connect(m_signUpWindow,&SignUp::switchSignIn,this,[=](){
-        m_stackWidget->setCurrentWidget(m_mainWidget);
-    });
-    m_stackWidget->setCurrentWidget(m_signUpWindow);
+    else{
+        QMessageBox::information(this, "waring", "please check your network!",QMessageBox::Ok);
+
+    }
+
 }
+
 
 void SignIn::handleReadyRead()
 {
-    TcpConnect* tcp = TcpConnect::instance();
+
+    disconnect(tcp->getSocket(), &QTcpSocket::readyRead, this, &SignIn::handleReadyRead);
+
     json receivedJson;
     receivedJson.clear();
 
     QByteArray data;
     data.clear();
     data = tcp->getSocket()->readAll();
+
     QString jsonString = QString::fromUtf8(data);
-    try {
-        receivedJson = json::parse(jsonString.toStdString());
-    } catch(const std::exception& e) {
-        std::cout << receivedJson << '\n';
-        std::cout << e.what() << '\n';
-        return;
-    }
+
+    receivedJson = json::parse(jsonString.toStdString());
     if(receivedJson["msgType"] == LOGIN_ACK && receivedJson["errorNo"] == 0)
     {
-        m_mainWindow = new MainWindow(receivedJson,this);
-        connect(m_mainWindow,&MainWindow::returnToSignIn,this,[=](){
-            m_mainWindow->hide();
-            this->show();
-        });
-        this->hide();
-        m_mainWindow->show();
-    }
-    else
-    {
-        QMessageBox::information(this, "waring", "Account or Password error",QMessageBox::Ok);
-        connect(m_signIn,&QPushButton::clicked,this,&SignIn::loginConfirm);
+        qDebug() << "one\n";
+        setSendData(receivedJson);
+        state = true;
+        emit swichMainWindow();
+    }else{
+        std::string temp = receivedJson["errorMsg"];
+        QMessageBox::information(this, "waring", QString::fromStdString(temp),QMessageBox::Ok);
     }
 
+
 }
+
+json SignIn::getSendData()
+{
+    return data;
+}
+
+void SignIn::setSendData(json receivedJson)
+{
+    data = receivedJson;
+
+}
+
 

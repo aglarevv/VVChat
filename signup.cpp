@@ -1,9 +1,8 @@
 #include "signup.h"
-#include "signin.h"
 #include "ui_signup.h"
 
 #include <QtDebug>
-
+extern TcpConnect* tcp;
 SignUp::SignUp(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SignUp)
@@ -12,7 +11,7 @@ SignUp::SignUp(QWidget *parent) :
 
     QWidget * mainWidget = new QWidget(this);
     QVBoxLayout * mainLayout = new QVBoxLayout(mainWidget);
-    //setLayout(mainLayout);
+
     mainWidget->setStyleSheet("QWidget { background: white; }");
     mainWidget->setFixedSize(440,300);
 
@@ -65,15 +64,24 @@ SignUp::SignUp(QWidget *parent) :
     w2_w3Layout->addWidget(w3);
     //注册
     QWidget *w4 = new QWidget(mainWidget);
-    QHBoxLayout *w4Layout = new QHBoxLayout(w4);
+    QVBoxLayout *w4Layout = new QVBoxLayout(w4);
     m_signUp = new QPushButton(mainWidget);
     m_signUp->setText("确认注册");
-    m_signUp->setMaximumWidth(200);
+    m_signUp->setMaximumWidth(400);
+
+    m_signIn = new QPushButton(mainWidget);
+    m_signIn->setText("返回");
+    m_signIn->setMaximumWidth(400);
+
     w4Layout->addWidget(m_signUp);
+    w4Layout->addWidget(m_signIn);
     mainLayout->addWidget(w4);
 
     connect(m_signUp,&QPushButton::pressed,this,&SignUp::signUpResoult);
+    connect(m_signIn,&QPushButton::clicked,this,[=](){
+        emit switchSignIn();
 
+    });
 
 }
 
@@ -85,12 +93,11 @@ SignUp::~SignUp()
 void SignUp::signUpResoult()
 {
 
-
     QString name;
     name = m_acc->text();
     QString password;
     password = m_pwd->text();
-    qDebug() << name << " " << password;
+    qDebug() << name << " :signUp " << password;
 
 
     json js;
@@ -99,28 +106,32 @@ void SignUp::signUpResoult()
     js["password"] = password.toUtf8();
     js["state"] = 0;
     std::string request = js.dump();
+    std::cout << request << " :signUp request\n ";
 
-    TcpConnect* tcp = TcpConnect::instance();
-    tcp->getSocket()->flush();
-    if(tcp->getSocket()->waitForConnected())
+    if(tcp != nullptr)
     {
-        if((tcp->getSocket()->write(request.c_str(),strlen(request.c_str())+1)) != -1){
-            connect(tcp->getSocket(),&QTcpSocket::readyRead,this,&SignUp::handleReadyRead);
-            return;
-        }
-        else{
-            QMessageBox::information(this, "waring", "register error",QMessageBox::Ok);
-        }
+        tcp->getSocket()->flush();
+        if(tcp->getSocket()->waitForConnected())
+        {
+            if((tcp->getSocket()->write(request.c_str(),strlen(request.c_str())+1)) != -1){
+                    connect(tcp->getSocket(),&QTcpSocket::readyRead,this,&SignUp::handleReadyRead);
+            }
+            else{
+                QMessageBox::information(this, "waring", "register error",QMessageBox::Ok);
+            }
 
+        }
+    }else{
+        QMessageBox::information(this, "waring", "please check your network!",QMessageBox::Ok);
     }
-
 
 }
 
 
 void SignUp::handleReadyRead()
 {
-    TcpConnect* tcp = TcpConnect::instance();
+
+    disconnect(tcp->getSocket(), &QTcpSocket::readyRead, this, &SignUp::handleReadyRead);
     json receivedJson;
     receivedJson.clear();
 
@@ -130,8 +141,9 @@ void SignUp::handleReadyRead()
     QString jsonString = QString::fromUtf8(data);
     try {
         receivedJson = json::parse(jsonString.toStdString());
+        std::cout <<"try signUp receivedJson: "<< receivedJson << '\n';
     } catch(const std::exception& e) {
-        std::cout << receivedJson << '\n';
+        std::cout <<"catch signUp receivedJson: "<< receivedJson << '\n';
         std::cout << e.what() << '\n';
         return;
     }
@@ -197,12 +209,13 @@ void SignUp::handleReadyRead()
 
         connect(closeButton, SIGNAL(clicked()), dialog, SLOT(hideDialog()));
         connect(closeButton,&QPushButton::clicked,this,[=](){
-            emit switchSignIn();
 
+            emit switchSignIn();
         });
-    }
-    else{
+    }else
         QMessageBox::information(this, "waring", "昵称或密码不能为空",QMessageBox::Ok);
-    }
+
+
+
 
 }

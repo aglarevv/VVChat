@@ -1,0 +1,62 @@
+[
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/ChatServer.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/ChatServer.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/ChatServer.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/ChatService.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/ChatService.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/ChatService.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/main.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/main.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/main.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/db/connectionPool.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/db/connectionPool.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/db/connectionPool.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/db/db.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/db/db.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/db/db.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/model/FriendModel.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/model/FriendModel.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/model/FriendModel.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/model/GroupModel.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/model/GroupModel.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/model/GroupModel.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/model/OfflineMessageModel.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/model/OfflineMessageModel.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/model/OfflineMessageModel.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/model/UserModel.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/model/UserModel.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/model/UserModel.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/redis/redis.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/redis/redis.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/redis/redis.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/other/WordFilter.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/other/WordFilter.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/other/WordFilter.cpp"
+},
+{
+  "directory": "/home/aglarevv/Chat/chatServer/build/src/server",
+  "command": "/usr/bin/g++  -I/home/aglarevv/Chat/chatServer/thirdparty -I/home/aglarevv/Chat/chatServer/include -I/home/aglarevv/Chat/chatServer/include/server -I/home/aglarevv/Chat/chatServer/include/server/db -I/home/aglarevv/Chat/chatServer/include/server/model -I/home/aglarevv/Chat/chatServer/include/server/redis -g -g -o CMakeFiles/chatServer.dir/other/randomAccountGenerator.cpp.o -c /home/aglarevv/Chat/chatServer/src/server/other/randomAccountGenerator.cpp",
+  "file": "/home/aglarevv/Chat/chatServer/src/server/other/randomAccountGenerator.cpp"
+}
+]

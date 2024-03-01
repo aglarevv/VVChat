@@ -1,9 +1,11 @@
 #include "tcpconnect.h"
 
+
+
 TcpConnect *TcpConnect::instance()
 {
-    static TcpConnect conn;
-    return &conn;
+    static TcpConnect *conn = new TcpConnect;
+    return conn;
 }
 
 bool TcpConnect::connect()
@@ -22,9 +24,20 @@ bool TcpConnect::connect()
     return true;
 }
 
+void TcpConnect::disConnect()
+{
+    m_socket->disconnectFromHost();
+
+}
+
 QTcpSocket *TcpConnect::getSocket()
 {
     return m_socket;
+}
+
+TcpConnect::~TcpConnect()
+{
+    delete m_socket;
 }
 
 TcpConnect::TcpConnect()

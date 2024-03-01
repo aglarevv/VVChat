@@ -24,7 +24,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED Network)
+find_package(Qt5 COMPONENTS Widgets REQUIRED Network )
+
 
 if(ANDROID)
   add_library(VVChat SHARED
@@ -49,6 +50,21 @@ if(ANDROID)
     user.h
     userlistmodel.cpp
     userlistmodel.h
+    mainui.cpp
+    mainui.h
+    itemdelegate.cpp
+    itemdelegate.h
+    flushinfo.cpp
+    flushinfo.h
+    tcpclient.cpp
+    tcpclient.h
+    tcpclient.ui
+    tcpserver.cpp
+    tcpserver.h
+    tcpserver.ui
+    fontmodel.cpp
+    fontmodel.h
+    fontmodel.ui
   )
 else()
   add_executable(VVChat
@@ -74,6 +90,21 @@ else()
     user.h
     userlistmodel.cpp
     userlistmodel.h
+    mainui.cpp
+    mainui.h
+    itemdelegate.cpp
+    itemdelegate.h
+    flushinfo.cpp
+    flushinfo.h
+    tcpclient.cpp
+    tcpclient.h
+    tcpclient.ui
+    tcpserver.cpp
+    tcpserver.h
+    tcpserver.ui
+    fontmodel.cpp
+    fontmodel.h
+    fontmodel.ui
     ${RESOURCES}
   )
 endif()

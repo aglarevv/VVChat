@@ -7,7 +7,7 @@ using json = nlohmann::json;
 
 #include <QTcpSocket>
 #include <QSettings>
-#include <QSettings>
+
 
 enum MsgType {
     LOGIN = 1,//登录
@@ -23,8 +23,12 @@ enum MsgType {
     GROUP_ADD,//加入群组
     GROUP_ADD_ACK,//加入群组响应
     GROUP_CHAT,//群组聊天
-    AI_CHAT,//AI聊天
+    GETINFO,//获取信息
+    GETINFO_ACK,//信息响应
+    FILETR,//文件
+    FILETR_ACK,//返回文件
 };
+
 
 
 class TcpConnect
@@ -32,11 +36,24 @@ class TcpConnect
 public:
     static TcpConnect* instance();
     bool connect();
-
+    void disConnect();
     QTcpSocket *getSocket();
+    ~TcpConnect();
 private:
     TcpConnect();
-    QTcpSocket *m_socket;
+    QTcpSocket *m_socket = nullptr;
 };
 
+
+//class TcpConnect
+//{
+//public:
+
+//    bool connect();
+//    TcpConnect();
+//    QTcpSocket *getSocket();
+//private:
+
+//    QTcpSocket *m_socket = nullptr;
+//};
 #endif // TCPCONNECT_H
