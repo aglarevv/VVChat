@@ -315,7 +315,7 @@ MainWindow::MainWindow(json js,QWidget *parent)
 
     QTimer* timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updataInfo);
-    //timer->start(3000);
+    timer->start(3000);
       browser->clear();
 
 }
